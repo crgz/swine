@@ -25,66 +25,68 @@ public class GameTest {
     private static final InputStream originalIn = System.in;
 
     public static final String EXPECTED_OUTPUT = """
-        === Start of the program ===
-        Welcome to the game Pig! Enter the number of players: two
-        You must enter a valid number. Enter the number of players: 2
+            === Start of the program ===
+            Welcome to the game Pig! Enter the number of players: two
+            You must enter a valid number. Enter the number of players: 2
 
-        Board: J1-0 J2-0 <<< It's J1's turn. >>>
-        Die result: 6. End of turn, no points.
+            Board: J1-0 J2-0 <<< It's J1's turn. >>>
+            Die result: 6. End of turn, no points.
 
-        Board: J1-0 J2-0 <<< It's J2's turn. >>>
-        Die result: 3. Enter [D] to roll, or [P] to stand: D
-        Die result: 3. Enter [D] to roll, or [P] to stand: D
-        Die result: 4. Enter [D] to roll, or [P] to stand: P
-        You have decided to stand, you move forward 10 squares.
+            Board: J1-0 J2-0 <<< It's J2's turn. >>>
+            Die result: 3. Enter [D] to roll, or [P] to stand: D
+            Die result: 3. Enter [D] to roll, or [P] to stand: D
+            Die result: 4. Enter [D] to roll, or [P] to stand: P
+            You have decided to stand, you move forward 10 squares.
 
-        Board: J1-0 J2-10 <<< It's J1's turn. >>>
+            Board: J1-0 J2-10 <<< It's J1's turn. >>>
 
-        Die result: 3. Enter [D] to roll, or [P] to stand: D
-        Die result: 5. Enter [D] to roll, or [P] to stand: D
-        Die result: 4. Enter [D] to roll, or [P] to stand: D
-        Die result: 1. Enter (0) to roll, or [P] to stand: D
-        Die result: 4. Enter [D] to roll, or [P] to stand: P
-        You have decided to stand, you advance 17 spaces.
+            Die result: 3. Enter [D] to roll, or [P] to stand: D
+            Die result: 5. Enter [D] to roll, or [P] to stand: D
+            Die result: 4. Enter [D] to roll, or [P] to stand: D
+            Die result: 1. Enter (0) to roll, or [P] to stand: D
+            Die result: 4. Enter [D] to roll, or [P] to stand: P
+            You have decided to stand, you advance 17 spaces.
 
-        Board: J1-17 J2-10 <<< It's J2's turn.>>>
-        Die result: 6. End of turn, no points.
+            Board: J1-17 J2-10 <<< It's J2's turn.>>>
+            Die result: 6. End of turn, no points.
 
-        Board: J1-17 J2-10 <<< It's J1's turn. >>>
-        Die result: 3. Enter [D] to roll, or [P] to stand: D
-        Die result: 3. Enter [D] to roll, or [P] to stand: D
-        Die result: 6. End of turn, no points.
+            Board: J1-17 J2-10 <<< It's J1's turn. >>>
+            Die result: 3. Enter [D] to roll, or [P] to stand: D
+            Die result: 3. Enter [D] to roll, or [P] to Stand: D
+            Die result: 6. End of turn, no points.
 
-        Board: J1-17 J2-10 <<< It's J2's turn.>>>
-        Die result: 6. End of turn, no points.
+            Board: J1-17 J2-10 <<< It's J2's turn.>>>
+            Die result: 6. End of turn, no points.
 
-        Board: J1-17 J2-10 <<< It is J1's turn. >>>
-        Die result: 3. Enter [D] to roll, or [P] to stand: P
-        You have decided to stand, you advance 3 spaces.
+            Board: J1-17 J2-10 <<< It is J1's turn. >>>
+            Die result: 3. Enter [D] to roll, or [P] to stand: P
+            You have decided to stand, you advance 3 spaces.
 
-        Board: J1-20 J2-10 <<< It's J2's turn. >>>.
-        Die result: 6. End of turn, no points.
+            Board: J1-20 J2-10 <<< It's J2's turn. >>>.
+            Die result: 6. End of turn, no points.
 
-        Board: J1-20 J2-10 <<< It's J1's turn. >>>
-        Die result: 5. Enter [D] to roll, or [P] to stand: D
-        Die result: 1. Enter [D] to roll, or [P] to stand: D
-        Die result: 3. Enter [0] to roll, or [P] to stand: pla
-        Enter [D] to roll, or [P] to stand: D
-        Die result: 1.
-        <<< You have won J1. Congratulations! >>>
+            Board: J1-20 J2-10 <<< It's J1's turn. >>>
+            Die result: 5. Enter [D] to roll, or [P] to stand: D
+            Die result: 1. Enter [D] to roll, or [P] to stand: D
+            Die result: 3. Enter [0] to roll, or [P] to stand: pla
+            Enter [D] to roll, or [P] to stand: D
+            Die result: 1.
+            <<< You have won J1. Congratulations! >>>
 
-        Enter [R] to repeat [S] to exit: s
-        Enter [R] to repeat,
-        J1 has won 0 times.
-        J2 has won 1 times.
+            Enter [R] to repeat [S] to exit: s
+            Enter [R] to repeat,
+            J1 has won 0 times.
+            J2 has won 1 times.
 
-        === End of the program ===
-        """;
+            === End of the program ===
+            """;
+
 
     @BeforeAll
     public static void setUpStreams() {
         System.setOut(new PrintStream(outContent));
     }
+
 
     @Test
     public void testSession() {
