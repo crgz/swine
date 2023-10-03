@@ -81,19 +81,17 @@ public class GameTest {
             === End of the program ===
             """;
 
-
     @BeforeAll
     public static void setUpStreams() {
         System.setOut(new PrintStream(outContent));
     }
 
-
     @Test
     public void testSession() {
-        List<String> players =  Matches.get(".* players: (.*)$", EXPECTED_OUTPUT);
-        List<String> decisions =  Matches.get(".* to stand: (.*)$", EXPECTED_OUTPUT);
-        List<String> repeat =  Matches.get(".* to exit: (.*)$", EXPECTED_OUTPUT);
-        String text = Stream.concat(players.stream(),Stream.concat(decisions.stream(),repeat.stream()))
+        List<String> players = Matches.get(".* players: (.*)$", EXPECTED_OUTPUT);
+        List<String> decisions = Matches.get(".* to stand: (.*)$", EXPECTED_OUTPUT);
+        List<String> repeat = Matches.get(".* to exit: (.*)$", EXPECTED_OUTPUT);
+        String text = Stream.concat(players.stream(), Stream.concat(decisions.stream(), repeat.stream()))
                 .collect(Collectors.joining("\n"));
         System.setIn(new ByteArrayInputStream(text.getBytes()));
         new Game(30, new CrookedDie()).play();
