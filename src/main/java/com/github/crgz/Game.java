@@ -9,6 +9,7 @@ import java.util.stream.IntStream;
 
 public class Game {
 
+    public static final int WON = -1;
     private final int cells;
     private final Die die;
 
@@ -22,82 +23,103 @@ public class Game {
     }
 
     public void play() {
-        System.out.println("=== Start of the program ===\nWelcome to the game Pig!");
-
+        System.out.println("=== Start of the program ===");
+        System.out.print("Welcome to the game Pig! ");
         Scanner in = new Scanner(System.in);
-
         int nPlayers = nPlayers(in);
-        int[] scores = new int[nPlayers];
         int[] games = new int[nPlayers];
-        int turn = 0;
         do {
-            do {
+            int[] scores = new int[nPlayers];
+            boolean done = false;
+            for (int turn = 0; !done; ++turn) {
                 int player = turn % nPlayers;
-                printBoard(scores, player);
-                int counter = 0;
-                do {
-                    int result = this.die.roll();
-                    System.out.printf("Die result: %s.", result);
-                    counter = (result != 6) ? result + counter : 0;
-                } while (counter != 0 && decision(in).charAt(0) == 'D');
-                if (counter > 0) {
-                    scores[player] += counter;
-                    if (scores[player] > this.cells) {
-                        ++games[player];
-                        System.out.printf("<<< You have won J%d. Congratulations! >>>", player);
-                        break;
-                    } else {
-                        System.out.printf("You have decided to stand, you move forward %s squares.", counter);
-                        ++turn;
-                    }
+                int progress = play(player, scores, in);
+                if (progress == WON) {
+                    ++games[player];
+                    System.out.printf("\n<<< You have won J%d. Congratulations! >>>\n\n", player + 1);
+                    done = true;
                 } else {
-                    System.out.println("End of turn, no points.");
-                    ++turn;
+                    scores[player] += progress;
                 }
-            } while (scores[turn % nPlayers] < this.cells);
-        } while (repeat(in).charAt(0) == 'R');
+            }
+        } while (repeat(in));
         for (int i = 0; i < games.length; ++i) {
-            System.out.printf("J%d has won %d times.", i, games[i]);
+            System.out.printf("J%d has won %d times.\n", i + 1, games[i]);
         }
-        System.out.println("=== End of the program ===");
+        System.out.print("\n=== End of the program ===\n");
     }
 
-    private static void printBoard(int[] scores, int player) {
-        String board = IntStream.range(0, scores.length)
-                .mapToObj(i -> String.format("J%s-%s", i + 1, scores[i]))
-                .collect(Collectors.joining(" "));
-        System.out.printf("\nBoard: %s <<< It's J%s's turn. >>>%n", board, player);
+    private int play(int player, int[] scores, Scanner in) {
+        printBoard(scores, player);
+        int progress = 0;
+        do {
+            int result = this.die.roll();
+            System.out.printf("Die result: %s. ", result);
+            if (result != 6) {
+                progress += result;
+                if (scores[player] + progress >= this.cells) {
+                    return WON;
+                }
+            } else {
+                System.out.println("End of turn, no points.");
+                return 0;
+            }
+        } while (stay(in, progress));
+        return progress;
     }
 
     private static int nPlayers(Scanner in) {
         while (true) {
             System.out.print("Enter the number of players: ");
             try {
-                return Integer.parseInt(in.nextLine());
+                String line = nextLine(in);
+                return Integer.parseInt(line);
             } catch (NumberFormatException e) {
-                System.out.println("You must enter a valid number");
+                System.out.print("You must enter a valid number. ");
             }
         }
     }
 
-    private static String decision(Scanner in) {
+    private static void printBoard(int[] scores, int player) {
+        String board = IntStream.range(0, scores.length)
+                .mapToObj(i -> String.format("J%s-%s", i + 1, scores[i]))
+                .collect(Collectors.joining(" "));
+        System.out.printf("\nBoard: %s <<< It's J%s's turn. >>>\n", board, player + 1);
+    }
+
+    private static boolean stay(Scanner in, int progress) {
         while (true) {
             System.out.print("Enter [D] to roll, or [P] to stand: ");
-            String s = in.nextLine();
-            if (s.charAt(0) == 'D' || s.charAt(0) == 'P') {
-                return s;
+            String line = nextLine(in);
+            switch (line.charAt(0)) {
+                case 'D':
+                    return true;
+                case 'P':
+                    System.out.printf("You have decided to stand, you advanced %s positions.\n", progress);
+                    return false;
             }
         }
     }
 
-    private static String repeat(Scanner in) {
+    private static boolean repeat(Scanner in) {
         while (true) {
             System.out.print("Enter [R] to repeat [S] to exit: ");
-            String s = in.nextLine();
-            if (s.charAt(0) == 'R' || s.charAt(0) == 'S') {
-                return s;
+            String line = nextLine(in);
+            switch (line.charAt(0)) {
+                case 'R':
+                    return true;
+                case 'S':
+                    return false;
             }
         }
+    }
+
+    private static String nextLine(Scanner in) {
+        String line = in.nextLine();
+        if (System.console() == null) {
+            System.out.println(line);
+        }
+        return line;
     }
 
     public static void main(String[] args) {

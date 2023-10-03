@@ -36,18 +36,17 @@ public class GameTest {
             Die result: 3. Enter [D] to roll, or [P] to stand: D
             Die result: 3. Enter [D] to roll, or [P] to stand: D
             Die result: 4. Enter [D] to roll, or [P] to stand: P
-            You have decided to stand, you move forward 10 squares.
+            You have decided to stand, you advanced 10 positions.
 
             Board: J1-0 J2-10 <<< It's J1's turn. >>>
-
             Die result: 3. Enter [D] to roll, or [P] to stand: D
             Die result: 5. Enter [D] to roll, or [P] to stand: D
             Die result: 4. Enter [D] to roll, or [P] to stand: D
-            Die result: 1. Enter (0) to roll, or [P] to stand: D
+            Die result: 1. Enter [D] to roll, or [P] to stand: D
             Die result: 4. Enter [D] to roll, or [P] to stand: P
-            You have decided to stand, you advance 17 spaces.
+            You have decided to stand, you advanced 17 positions.
 
-            Board: J1-17 J2-10 <<< It's J2's turn.>>>
+            Board: J1-17 J2-10 <<< It's J2's turn. >>>
             Die result: 6. End of turn, no points.
 
             Board: J1-17 J2-10 <<< It's J1's turn. >>>
@@ -55,28 +54,27 @@ public class GameTest {
             Die result: 3. Enter [D] to roll, or [P] to stand: D
             Die result: 6. End of turn, no points.
 
-            Board: J1-17 J2-10 <<< It's J2's turn.>>>
+            Board: J1-17 J2-10 <<< It's J2's turn. >>>
             Die result: 6. End of turn, no points.
 
-            Board: J1-17 J2-10 <<< It is J1's turn. >>>
+            Board: J1-17 J2-10 <<< It's J1's turn. >>>
             Die result: 3. Enter [D] to roll, or [P] to stand: P
-            You have decided to stand, you advance 3 spaces.
+            You have decided to stand, you advanced 3 positions.
 
-            Board: J1-20 J2-10 <<< It's J2's turn. >>>.
+            Board: J1-20 J2-10 <<< It's J2's turn. >>>
             Die result: 6. End of turn, no points.
 
             Board: J1-20 J2-10 <<< It's J1's turn. >>>
             Die result: 5. Enter [D] to roll, or [P] to stand: D
             Die result: 1. Enter [D] to roll, or [P] to stand: D
-            Die result: 3. Enter [0] to roll, or [P] to stand: pla
+            Die result: 3. Enter [D] to roll, or [P] to stand: pla
             Enter [D] to roll, or [P] to stand: D
             Die result: 1.
             <<< You have won J1. Congratulations! >>>
 
-            Enter [R] to repeat [S] to exit: s
-            Enter [R] to repeat,
-            J1 has won 0 times.
-            J2 has won 1 times.
+            Enter [R] to repeat [S] to exit: S
+            J1 has won 1 times.
+            J2 has won 0 times.
 
             === End of the program ===
             """;
@@ -95,7 +93,7 @@ public class GameTest {
                 .collect(Collectors.joining("\n"));
         System.setIn(new ByteArrayInputStream(text.getBytes()));
         new Game(30, new CrookedDie()).play();
-        assertEquals(EXPECTED_OUTPUT, outContent.toString());
+        assertEquals(EXPECTED_OUTPUT, outContent.toString().replaceAll("(?m) +$", ""));
     }
 
     @AfterAll
