@@ -52,7 +52,7 @@ public class GameTest {
 
             Board: J1-17 J2-10 <<< It's J1's turn. >>>
             Die result: 3. Enter [D] to roll, or [P] to stand: D
-            Die result: 3. Enter [D] to roll, or [P] to Stand: D
+            Die result: 3. Enter [D] to roll, or [P] to stand: D
             Die result: 6. End of turn, no points.
 
             Board: J1-17 J2-10 <<< It's J2's turn.>>>
