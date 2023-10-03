@@ -1,5 +1,7 @@
 package com.github.crgz;
 
+import com.github.crgz.utils.CrookedDie;
+import com.github.crgz.utils.Matches;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -8,15 +10,15 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
-class PigTest {
+public class GameTest {
 
     private static final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private static final PrintStream originalOut = System.out;
@@ -88,8 +90,13 @@ class PigTest {
 
     @Test
     public void testSession() {
-        System.setIn(new ByteArrayInputStream(new FakeInput().get().getBytes()));
-//        new Game(30, new CrookedDie()).play();
+        List<String> players =  Matches.get(".* players: (.*)$", EXPECTED_OUTPUT);
+        List<String> decisions =  Matches.get(".* to stand: (.*)$", EXPECTED_OUTPUT);
+        List<String> repeat =  Matches.get(".* to exit: (.*)$", EXPECTED_OUTPUT);
+        String text = Stream.concat(players.stream(),Stream.concat(decisions.stream(),repeat.stream()))
+                .collect(Collectors.joining("\n"));
+        System.setIn(new ByteArrayInputStream(text.getBytes()));
+        new Game(30, new CrookedDie()).play();
         assertEquals(EXPECTED_OUTPUT, outContent.toString());
     }
 
@@ -97,31 +104,5 @@ class PigTest {
     public static void restoreStreams() {
         System.setOut(originalOut);
         System.setIn(originalIn);
-    }
-
-
-    class CrookedDie extends Die {
-        protected Iterator<String> iterator= new Matches("^Die result: ([0-6]).*", EXPECTED_OUTPUT).iterator();
-
-        public String roll(){
-            return this.iterator.next();
-        }
-    }
-
-    class FakeInput {
-        protected Matches matches = new Matches(".* to stand: (.*)$", EXPECTED_OUTPUT);
-
-        public String get(){
-            return this.matches.toString();
-        }
-    }
-
-    class Matches extends ArrayList<String> {
-        public Matches(String regex, String s) {
-            Matcher matcher = Pattern.compile(regex, Pattern.MULTILINE).matcher(s);
-            while (matcher.find()) {
-                this.add(matcher.group(1));
-            }
-        }
     }
 }
