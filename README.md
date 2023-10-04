@@ -1,6 +1,6 @@
 # Swine Game Implementation
 
-This is a simple implementation of the classic Swine Game.
+This is a simple implementation of the classic [Pig (dice game)](https://en.wikipedia.org/wiki/Pig_(dice_game)).
 
 ## Build
 
