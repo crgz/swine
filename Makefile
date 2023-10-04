@@ -17,9 +17,14 @@ else
 $(error Unsupported operating system: $(OS))
 endif
 
-all: test
+all: package
+
+package: target/game-pig-1.0-SNAPSHOT.jar
 
 JAVA_HOME=$(TOOLS_DIR)/jdk-21/
+target/game-pig-1.0-SNAPSHOT.jar:
+	JAVA_HOME=$(JAVA_HOME) ~/Public/apache-maven-3.6.3/bin/mvn clean package
+
 test: maven
 	JAVA_HOME=$(JAVA_HOME) ~/Public/apache-maven-3.6.3/bin/mvn test
 
