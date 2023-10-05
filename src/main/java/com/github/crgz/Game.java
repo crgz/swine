@@ -91,6 +91,8 @@ public class Game {
         while (true) {
             System.out.print("Enter [D] to roll, or [P] to stand: ");
             String line = nextLine(in);
+            if(line == null || line.isBlank())
+                continue;
             switch (line.charAt(0)) {
                 case 'D':
                     return true;
@@ -105,6 +107,8 @@ public class Game {
         while (true) {
             System.out.print("Enter [R] to repeat [S] to exit: ");
             String line = nextLine(in);
+            if(line == null || line.isBlank())
+                continue;
             switch (line.charAt(0)) {
                 case 'R':
                     return true;
